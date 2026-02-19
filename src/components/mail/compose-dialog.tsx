@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Sparkles, Send, X, Minus, Trash2 } from 'lucide-react';
 import { AiCompose } from './ai-compose';
 
@@ -67,24 +66,24 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
 
   return (
     <div className="fixed bottom-0 right-6 z-50 flex flex-col" style={{ width: 560 }}>
-      <div className="shadow-atmospheric rounded-t-xl border border-border/50 bg-card">
+      <div className="shadow-elevated rounded-t-xl border border-border/40 bg-card/95 backdrop-blur-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border/50 bg-muted/80 px-4 py-2 rounded-t-xl cursor-pointer"
+        <div className="flex items-center justify-between border-b border-border/30 bg-muted/50 px-4 py-2.5 rounded-t-xl cursor-pointer"
           onClick={() => setMinimized(!minimized)}
         >
-          <h3 className="text-sm font-medium text-foreground">New Message</h3>
-          <div className="flex items-center gap-1">
+          <h3 className="text-sm font-semibold text-foreground tracking-tight">New Message</h3>
+          <div className="flex items-center gap-0.5">
             <button
               onClick={(e) => { e.stopPropagation(); setMinimized(!minimized); }}
-              className="flex h-6 w-6 items-center justify-center rounded transition-all hover:bg-muted hover:scale-110"
+              className="flex h-6 w-6 items-center justify-center rounded-md transition-all duration-150 hover:bg-muted/60 hover:scale-110"
             >
-              <Minus className="h-3.5 w-3.5 text-muted-foreground" />
+              <Minus className="h-3.5 w-3.5 text-muted-foreground/60" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); onOpenChange(false); }}
-              className="flex h-6 w-6 items-center justify-center rounded transition-all hover:bg-muted hover:scale-110"
+              className="flex h-6 w-6 items-center justify-center rounded-md transition-all duration-150 hover:bg-muted/60 hover:scale-110"
             >
-              <X className="h-3.5 w-3.5 text-muted-foreground" />
+              <X className="h-3.5 w-3.5 text-muted-foreground/60" />
             </button>
           </div>
         </div>
@@ -92,41 +91,41 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
         {!minimized && (
           <>
             {/* Fields */}
-            <div className="divide-y divide-border/50">
+            <div className="divide-y divide-border/30">
               <div className="flex items-center gap-2 px-4 py-1.5">
-                <span className="text-[13px] text-muted-foreground w-8">To</span>
+                <span className="text-[13px] text-muted-foreground/60 w-8 font-medium">To</span>
                 <input
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
                   placeholder="Recipients"
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/40"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/30 tracking-tight"
                 />
-                <div className="flex gap-1 text-[12px] text-muted-foreground">
+                <div className="flex gap-1.5 text-[12px] text-muted-foreground/50">
                   {!showCc && (
-                    <button onClick={() => setShowCc(true)} className="hover:text-foreground">Cc</button>
+                    <button onClick={() => setShowCc(true)} className="hover:text-foreground transition-colors">Cc</button>
                   )}
                   {!showBcc && (
-                    <button onClick={() => setShowBcc(true)} className="hover:text-foreground">Bcc</button>
+                    <button onClick={() => setShowBcc(true)} className="hover:text-foreground transition-colors">Bcc</button>
                   )}
                 </div>
               </div>
               {showCc && (
                 <div className="flex items-center gap-2 px-4 py-1.5">
-                  <span className="text-[13px] text-muted-foreground w-8">Cc</span>
+                  <span className="text-[13px] text-muted-foreground/60 w-8 font-medium">Cc</span>
                   <input
                     value={cc}
                     onChange={(e) => setCc(e.target.value)}
-                    className="flex-1 bg-transparent text-sm outline-none"
+                    className="flex-1 bg-transparent text-sm outline-none tracking-tight"
                   />
                 </div>
               )}
               {showBcc && (
                 <div className="flex items-center gap-2 px-4 py-1.5">
-                  <span className="text-[13px] text-muted-foreground w-8">Bcc</span>
+                  <span className="text-[13px] text-muted-foreground/60 w-8 font-medium">Bcc</span>
                   <input
                     value={bcc}
                     onChange={(e) => setBcc(e.target.value)}
-                    className="flex-1 bg-transparent text-sm outline-none"
+                    className="flex-1 bg-transparent text-sm outline-none tracking-tight"
                   />
                 </div>
               )}
@@ -136,19 +135,19 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Subject"
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/40"
+                  className="flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-muted-foreground/30 tracking-tight"
                 />
               </div>
             </div>
 
             {/* Body */}
-            <div className="px-4 py-2">
+            <div className="px-4 py-3">
               <textarea
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder="Write your email..."
                 rows={12}
-                className="w-full resize-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground/40"
+                className="w-full resize-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground/30"
               />
             </div>
 
@@ -160,7 +159,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
             )}
 
             {/* Footer */}
-            <div className="flex items-center gap-2 border-t border-border/50 px-4 py-2.5">
+            <div className="flex items-center gap-2 border-t border-border/30 px-4 py-2.5">
               <Button
                 onClick={handleSend}
                 disabled={sending}
@@ -174,7 +173,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowAi(!showAi)}
-                className="text-muted-foreground"
+                className="text-muted-foreground/70 hover:text-primary"
               >
                 <Sparkles className="mr-1 h-3.5 w-3.5" />
                 AI Assist
@@ -182,7 +181,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
               <div className="flex-1" />
               <button
                 onClick={() => { onOpenChange(false); setTo(''); setSubject(''); setBody(''); }}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-all hover:bg-muted/50 hover:text-foreground hover:scale-105"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground/50 transition-all duration-200 hover:bg-muted/40 hover:text-foreground hover:scale-105"
                 title="Discard"
               >
                 <Trash2 className="h-4 w-4" />

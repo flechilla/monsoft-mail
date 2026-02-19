@@ -67,6 +67,8 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Prose styles for email body rendering */
@@ -93,14 +95,26 @@
 /* ── Glass utility ── */
 .glass {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
 }
 .dark .glass {
   background: rgba(255, 255, 255, 0.03);
 }
 :not(.dark) .glass {
   background: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Glass card (for elevated panels) ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+:not(.dark) .glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 /* ── Subtle glow utilities ── */
@@ -111,7 +125,9 @@
   box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.2);
 }
 .glow-primary {
-  box-shadow: 0 4px 24px -4px rgba(59, 130, 246, 0.3);
+  box-shadow:
+    0 4px 24px -4px rgba(59, 130, 246, 0.3),
+    0 0 0 1px rgba(59, 130, 246, 0.1);
 }
 
 /* ── Atmospheric shadows ── */
@@ -123,9 +139,23 @@
 }
 .dark .shadow-atmospheric {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 12px 24px rgba(0, 0, 0, 0.2);
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+/* ── Deep shadow for elevated panels ── */
+.shadow-elevated {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.03),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 24px 48px rgba(0, 0, 0, 0.08);
+}
+.dark .shadow-elevated {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 24px 48px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Email row hover actions ── */
@@ -148,23 +178,23 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(113, 113, 122, 0.25);
+  background: rgba(113, 113, 122, 0.2);
   border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(113, 113, 122, 0.45);
+  background: rgba(113, 113, 122, 0.35);
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(113, 113, 122, 0.2);
+  background: rgba(113, 113, 122, 0.15);
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(113, 113, 122, 0.35);
+  background: rgba(113, 113, 122, 0.3);
 }
 
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(113, 113, 122, 0.25) transparent;
+  scrollbar-color: rgba(113, 113, 122, 0.2) transparent;
 }
 
 /* ── Gradient text utility ── */
@@ -185,9 +215,57 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 300px;
+  width: 700px;
+  height: 400px;
   background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
+}
+
+/* ── Compose gradient button ── */
+.btn-compose {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  position: relative;
+  overflow: hidden;
+}
+.btn-compose::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.btn-compose:hover::before {
+  opacity: 1;
+}
+
+/* ── Active nav indicator ── */
+.nav-active {
+  position: relative;
+}
+.nav-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 60%;
+  background: linear-gradient(180deg, #3b82f6, #60a5fa);
+  border-radius: 100px;
+}
+
+/* ── Subtle inner glow for focused elements ── */
+.focus-glow:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 0 0 4px rgba(59, 130, 246, 0.3),
+    0 0 16px -4px rgba(59, 130, 246, 0.15);
+}
+
+/* ── Premium divider ── */
+.divider-subtle {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
 }

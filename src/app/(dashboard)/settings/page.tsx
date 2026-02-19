@@ -79,7 +79,7 @@ export default function SettingsPage() {
   if (loading || !settings) {
     return (
       <div className="flex h-full items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground/40" />
       </div>
     );
   }
@@ -88,20 +88,20 @@ export default function SettingsPage() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-2xl px-6 py-8">
         <div className="mb-8 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/8">
             <Settings className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Settings</h1>
-            <p className="text-sm text-muted-foreground">Manage your preferences</p>
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">Settings</h1>
+            <p className="text-sm text-muted-foreground/60">Manage your preferences</p>
           </div>
           {saving && (
-            <div className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground">
+            <div className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground/50">
               <Loader2 className="h-3 w-3 animate-spin" /> Saving…
             </div>
           )}
           {saved && (
-            <div className="ml-auto flex items-center gap-1.5 text-xs text-green-600">
+            <div className="ml-auto flex items-center gap-1.5 text-xs text-emerald-500">
               <Check className="h-3 w-3" /> Saved
             </div>
           )}
@@ -112,24 +112,25 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-muted-foreground" />
-                <CardTitle className="text-lg">Profile</CardTitle>
+                <User className="h-4 w-4 text-muted-foreground/60" />
+                <CardTitle className="text-lg tracking-tight">Profile</CardTitle>
               </div>
-              <CardDescription>Your display name and email signature</CardDescription>
+              <CardDescription className="text-muted-foreground/50">Your display name and email signature</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="displayName">Display Name</Label>
+                <Label htmlFor="displayName" className="text-foreground/80">Display Name</Label>
                 <Input
                   id="displayName"
                   value={settings.displayName || ''}
                   onChange={(e) => setSettings({ ...settings, displayName: e.target.value })}
                   onBlur={() => save({ displayName: settings.displayName })}
                   placeholder="Your name"
+                  className="bg-muted/20 border-border/30"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="signature">Email Signature</Label>
+                <Label htmlFor="signature" className="text-foreground/80">Email Signature</Label>
                 <textarea
                   id="signature"
                   value={settings.emailSignature || ''}
@@ -137,7 +138,7 @@ export default function SettingsPage() {
                   onBlur={() => save({ emailSignature: settings.emailSignature })}
                   placeholder="Your email signature..."
                   rows={4}
-                  className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="flex w-full rounded-md border border-border/30 bg-muted/20 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:shadow-[0_0_0_3px_rgba(59,130,246,0.08)] transition-all"
                 />
               </div>
             </CardContent>
@@ -147,16 +148,16 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Palette className="h-4 w-4 text-muted-foreground" />
-                <CardTitle className="text-lg">Appearance</CardTitle>
+                <Palette className="h-4 w-4 text-muted-foreground/60" />
+                <CardTitle className="text-lg tracking-tight">Appearance</CardTitle>
               </div>
-              <CardDescription>Customize the look and feel</CardDescription>
+              <CardDescription className="text-muted-foreground/50">Customize the look and feel</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <Label>Theme</Label>
-                  <p className="text-xs text-muted-foreground mt-1">Choose your preferred theme</p>
+                  <Label className="text-foreground/80">Theme</Label>
+                  <p className="text-xs text-muted-foreground/40 mt-1">Choose your preferred theme</p>
                 </div>
                 <Select
                   value={settings.theme}
@@ -166,7 +167,7 @@ export default function SettingsPage() {
                     { value: 'dark', label: 'Dark' },
                     { value: 'system', label: 'System' },
                   ]}
-                  className="w-32"
+                  className="w-32 bg-muted/20 border-border/30"
                 />
               </div>
             </CardContent>
@@ -176,36 +177,38 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Brain className="h-4 w-4 text-muted-foreground" />
-                <CardTitle className="text-lg">AI Preferences</CardTitle>
+                <Brain className="h-4 w-4 text-muted-foreground/60" />
+                <CardTitle className="text-lg tracking-tight">AI Preferences</CardTitle>
               </div>
-              <CardDescription>Control AI-powered features</CardDescription>
+              <CardDescription className="text-muted-foreground/50">Control AI-powered features</CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label>Email Classification</Label>
-                  <p className="text-xs text-muted-foreground mt-1">Auto-categorize incoming emails</p>
+                  <Label className="text-foreground/80">Email Classification</Label>
+                  <p className="text-xs text-muted-foreground/40 mt-1">Auto-categorize incoming emails</p>
                 </div>
                 <Switch
                   checked={settings.aiClassification}
                   onCheckedChange={(v) => update('aiClassification', v)}
                 />
               </div>
+              <div className="divider-subtle" />
               <div className="flex items-center justify-between">
                 <div>
-                  <Label>Reply Suggestions</Label>
-                  <p className="text-xs text-muted-foreground mt-1">Get AI-generated reply suggestions</p>
+                  <Label className="text-foreground/80">Reply Suggestions</Label>
+                  <p className="text-xs text-muted-foreground/40 mt-1">Get AI-generated reply suggestions</p>
                 </div>
                 <Switch
                   checked={settings.aiReplySuggestions}
                   onCheckedChange={(v) => update('aiReplySuggestions', v)}
                 />
               </div>
+              <div className="divider-subtle" />
               <div className="flex items-center justify-between">
                 <div>
-                  <Label>Default Compose Tone</Label>
-                  <p className="text-xs text-muted-foreground mt-1">AI writing style for composed emails</p>
+                  <Label className="text-foreground/80">Default Compose Tone</Label>
+                  <p className="text-xs text-muted-foreground/40 mt-1">AI writing style for composed emails</p>
                 </div>
                 <Select
                   value={settings.aiComposeTone}
@@ -215,7 +218,7 @@ export default function SettingsPage() {
                     { value: 'casual', label: 'Casual' },
                     { value: 'friendly', label: 'Friendly' },
                   ]}
-                  className="w-40"
+                  className="w-40 bg-muted/20 border-border/30"
                 />
               </div>
             </CardContent>
