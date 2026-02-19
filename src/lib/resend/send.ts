@@ -1,7 +1,8 @@
 import { db } from '@/lib/db';
-import { emailAccounts, emails, threads } from '@/lib/db/schema';
+import { emailAccounts, emails, threads, userResendConfigs } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { getResendClient } from './client';
+import { decryptApiKey } from '@/lib/crypto';
 
 interface SendEmailParams {
   accountId: string;
@@ -17,6 +18,18 @@ interface SendEmailParams {
   threadId?: string;
 }
 
+async function getUserResendApiKey(userId: string): Promise<string> {
+  const [config] = await db
+    .select()
+    .from(userResendConfigs)
+    .where(eq(userResendConfigs.userId, userId))
+    .limit(1);
+
+  if (!config) throw new Error('No Resend configuration found. Complete onboarding first.');
+
+  return decryptApiKey(config.resendApiKeyEncrypted, config.resendApiKeyIv, config.resendApiKeyTag);
+}
+
 export async function sendEmail(params: SendEmailParams) {
   const [account] = await db
     .select()
@@ -26,7 +39,9 @@ export async function sendEmail(params: SendEmailParams) {
 
   if (!account) throw new Error('Email account not found');
 
-  const resend = getResendClient(account.resendApiKey);
+  // Look up the user's BYOK Resend API key
+  const apiKey = await getUserResendApiKey(account.userId);
+  const resend = getResendClient(apiKey);
 
   const headers: Record<string, string> = {};
   if (params.inReplyTo) headers['In-Reply-To'] = params.inReplyTo;
@@ -77,7 +92,6 @@ export async function sendEmail(params: SendEmailParams) {
       .set({
         lastMessageAt: new Date(),
         messageCount: (() => {
-          // Will be incremented; for simplicity use raw SQL or re-query
           return 1; // placeholder, real impl would increment
         })(),
         snippet,

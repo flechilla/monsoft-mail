@@ -173,6 +173,66 @@ export const emailLabels = pgTable(
   (t) => [primaryKey({ columns: [t.emailId, t.labelId] })],
 );
 
+// ─── BYOK Resend Configuration ──────────────────────────────────────
+
+export const userResendConfigs = pgTable('user_resend_configs', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' })
+    .unique(),
+  resendApiKeyEncrypted: text('resend_api_key_encrypted').notNull(),
+  resendApiKeyIv: text('resend_api_key_iv').notNull(),
+  resendApiKeyTag: text('resend_api_key_tag').notNull(),
+  isVerified: boolean('is_verified').notNull().default(false),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export const userDomains = pgTable(
+  'user_domains',
+  {
+    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    resendConfigId: text('resend_config_id')
+      .notNull()
+      .references(() => userResendConfigs.id, { onDelete: 'cascade' }),
+    domainName: text('domain_name').notNull(),
+    resendDomainId: text('resend_domain_id').notNull(),
+    status: text('status', { enum: ['verified', 'pending', 'failed'] }).notNull().default('pending'),
+    canSend: boolean('can_send').notNull().default(false),
+    canReceive: boolean('can_receive').notNull().default(false),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (t) => [
+    index('user_domains_user_id_idx').on(t.userId),
+    index('user_domains_config_id_idx').on(t.resendConfigId),
+  ],
+);
+
+export const userEmailAddresses = pgTable(
+  'user_email_addresses',
+  {
+    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    domainId: text('domain_id')
+      .notNull()
+      .references(() => userDomains.id, { onDelete: 'cascade' }),
+    emailAddress: text('email_address').notNull().unique(),
+    displayName: text('display_name'),
+    isDefault: boolean('is_default').notNull().default(false),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (t) => [
+    index('user_email_addresses_user_id_idx').on(t.userId),
+    index('user_email_addresses_domain_id_idx').on(t.domainId),
+  ],
+);
+
 // ─── User Settings ──────────────────────────────────────────────────
 
 export const userSettings = pgTable('user_settings', {
@@ -193,6 +253,9 @@ export const userSettings = pgTable('user_settings', {
 export const usersRelations = relations(users, ({ many, one }) => ({
   emailAccounts: many(emailAccounts),
   settings: one(userSettings),
+  resendConfig: one(userResendConfigs),
+  domains: many(userDomains),
+  emailAddresses: many(userEmailAddresses),
 }));
 
 export const userSettingsRelations = relations(userSettings, ({ one }) => ({
@@ -225,4 +288,22 @@ export const labelsRelations = relations(labels, ({ one, many }) => ({
 export const emailLabelsRelations = relations(emailLabels, ({ one }) => ({
   email: one(emails, { fields: [emailLabels.emailId], references: [emails.id] }),
   label: one(labels, { fields: [emailLabels.labelId], references: [labels.id] }),
+}));
+
+// ─── BYOK Relations ─────────────────────────────────────────────────
+
+export const userResendConfigsRelations = relations(userResendConfigs, ({ one, many }) => ({
+  user: one(users, { fields: [userResendConfigs.userId], references: [users.id] }),
+  domains: many(userDomains),
+}));
+
+export const userDomainsRelations = relations(userDomains, ({ one, many }) => ({
+  user: one(users, { fields: [userDomains.userId], references: [users.id] }),
+  resendConfig: one(userResendConfigs, { fields: [userDomains.resendConfigId], references: [userResendConfigs.id] }),
+  emailAddresses: many(userEmailAddresses),
+}));
+
+export const userEmailAddressesRelations = relations(userEmailAddresses, ({ one }) => ({
+  user: one(users, { fields: [userEmailAddresses.userId], references: [users.id] }),
+  domain: one(userDomains, { fields: [userEmailAddresses.domainId], references: [userDomains.id] }),
 }));

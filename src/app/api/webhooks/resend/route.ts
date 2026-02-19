@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Webhook } from 'svix';
 import { db } from '@/lib/db';
-import { emailAccounts, emails, threads } from '@/lib/db/schema';
+import { emailAccounts, emails, threads, userEmailAddresses } from '@/lib/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { classifyEmail } from '@/lib/ai/classify';
 
@@ -86,6 +86,54 @@ async function findOrCreateThread(
   return newThread.id;
 }
 
+async function findAccountByRecipient(toList: string[]) {
+  // First, try matching against user_email_addresses (BYOK)
+  for (const addr of toList) {
+    const normalized = addr.toLowerCase().trim();
+    const [userAddr] = await db
+      .select()
+      .from(userEmailAddresses)
+      .where(eq(userEmailAddresses.emailAddress, normalized))
+      .limit(1);
+
+    if (userAddr) {
+      // Find or create a matching email_account for this user
+      const [existing] = await db
+        .select()
+        .from(emailAccounts)
+        .where(and(eq(emailAccounts.userId, userAddr.userId), eq(emailAccounts.email, userAddr.emailAddress)))
+        .limit(1);
+
+      if (existing) return existing;
+
+      // Auto-create the email account entry
+      const [account] = await db
+        .insert(emailAccounts)
+        .values({
+          userId: userAddr.userId,
+          email: userAddr.emailAddress,
+          name: userAddr.displayName || userAddr.emailAddress.split('@')[0],
+          resendApiKey: 'byok', // placeholder — actual key is in user_resend_configs
+          isDefault: false,
+        })
+        .returning();
+      return account;
+    }
+  }
+
+  // Fallback: try legacy emailAccounts lookup
+  for (const addr of toList) {
+    const [account] = await db
+      .select()
+      .from(emailAccounts)
+      .where(eq(emailAccounts.email, addr))
+      .limit(1);
+    if (account) return account;
+  }
+
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const payload = verifyWebhook(body, req.headers);
@@ -114,11 +162,7 @@ export async function POST(req: NextRequest) {
 
   // Find matching account by recipient email
   const toList: string[] = Array.isArray(toAddrs) ? toAddrs : [toAddrs];
-  const [account] = await db
-    .select()
-    .from(emailAccounts)
-    .where(eq(emailAccounts.email, toList[0]))
-    .limit(1);
+  const account = await findAccountByRecipient(toList);
 
   if (!account) {
     return NextResponse.json({ error: 'No matching account' }, { status: 404 });
