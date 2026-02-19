@@ -10,10 +10,20 @@ function hashString(str: string): number {
   return hash;
 }
 
-function getAvatarColor(email: string): string {
+const avatarGradients = [
+  'from-blue-500 to-cyan-400',
+  'from-violet-500 to-purple-400',
+  'from-pink-500 to-rose-400',
+  'from-amber-500 to-orange-400',
+  'from-emerald-500 to-teal-400',
+  'from-indigo-500 to-blue-400',
+  'from-fuchsia-500 to-pink-400',
+  'from-cyan-500 to-sky-400',
+];
+
+function getAvatarGradient(email: string): string {
   const hash = Math.abs(hashString(email));
-  const hue = hash % 360;
-  return `hsl(${hue}, 55%, 55%)`;
+  return avatarGradients[hash % avatarGradients.length];
 }
 
 function getInitials(name: string): string {
@@ -32,24 +42,24 @@ interface MailAvatarProps {
 }
 
 const sizeClasses = {
-  sm: 'h-8 w-8 text-xs',
-  md: 'h-9 w-9 text-sm',
-  lg: 'h-10 w-10 text-sm',
+  sm: 'h-8 w-8 text-[11px]',
+  md: 'h-9 w-9 text-[12px]',
+  lg: 'h-10 w-10 text-[13px]',
 };
 
 export function MailAvatar({ email, name, size = 'md', className }: MailAvatarProps) {
   const displayName = name || email.split('@')[0] || email;
   const initials = getInitials(displayName);
-  const color = getAvatarColor(email);
+  const gradient = getAvatarGradient(email);
 
   return (
     <div
       className={cn(
-        'flex shrink-0 items-center justify-center rounded-full font-medium text-white',
+        'flex shrink-0 items-center justify-center rounded-full font-semibold text-white bg-gradient-to-br shadow-sm ring-1 ring-white/10',
+        gradient,
         sizeClasses[size],
         className,
       )}
-      style={{ backgroundColor: color }}
     >
       {initials}
     </div>

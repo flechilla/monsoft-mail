@@ -7,9 +7,9 @@ import { MailProvider } from './mail-context';
 export function MailLayout({ children }: { children: React.ReactNode }) {
   return (
     <MailProvider>
-      <div className="flex h-screen flex-col bg-background">
+      <div className="noise-overlay flex h-screen flex-col bg-background">
         <TopBar />
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1 overflow-hidden relative z-10">
           <Sidebar />
           <main className="flex-1 overflow-hidden">{children}</main>
         </div>

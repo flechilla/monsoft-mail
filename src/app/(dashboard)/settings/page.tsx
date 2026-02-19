@@ -79,29 +79,29 @@ export default function SettingsPage() {
   if (loading || !settings) {
     return (
       <div className="flex h-full items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground/40" />
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground/30" />
       </div>
     );
   }
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto max-w-2xl px-6 py-8">
-        <div className="mb-8 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/8">
-            <Settings className="h-5 w-5 text-primary" />
+      <div className="mx-auto max-w-2xl px-6 py-8 animate-fade-in">
+        <div className="mb-8 flex items-center gap-3.5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/[0.08] border border-primary/10">
+            <Settings className="h-5 w-5 text-primary drop-shadow-[0_0_6px_rgba(59,130,246,0.3)]" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">Settings</h1>
-            <p className="text-sm text-muted-foreground/60">Manage your preferences</p>
+            <h1 className="text-2xl font-bold text-foreground tracking-[-0.02em]">Settings</h1>
+            <p className="text-[13px] text-muted-foreground/45 mt-0.5">Manage your preferences</p>
           </div>
           {saving && (
-            <div className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground/50">
+            <div className="ml-auto flex items-center gap-1.5 text-[12px] text-muted-foreground/40">
               <Loader2 className="h-3 w-3 animate-spin" /> Saving…
             </div>
           )}
           {saved && (
-            <div className="ml-auto flex items-center gap-1.5 text-xs text-emerald-500">
+            <div className="ml-auto flex items-center gap-1.5 text-[12px] text-emerald-400">
               <Check className="h-3 w-3" /> Saved
             </div>
           )}
@@ -111,26 +111,25 @@ export default function SettingsPage() {
           {/* Profile */}
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-muted-foreground/60" />
-                <CardTitle className="text-lg tracking-tight">Profile</CardTitle>
+              <div className="flex items-center gap-2.5">
+                <User className="h-4 w-4 text-muted-foreground/50" />
+                <CardTitle className="text-[16px] tracking-tight font-semibold">Profile</CardTitle>
               </div>
-              <CardDescription className="text-muted-foreground/50">Your display name and email signature</CardDescription>
+              <CardDescription className="text-muted-foreground/40 text-[13px]">Your display name and email signature</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="displayName" className="text-foreground/80">Display Name</Label>
+                <Label htmlFor="displayName" className="text-[13px] text-foreground/70 font-medium">Display Name</Label>
                 <Input
                   id="displayName"
                   value={settings.displayName || ''}
                   onChange={(e) => setSettings({ ...settings, displayName: e.target.value })}
                   onBlur={() => save({ displayName: settings.displayName })}
                   placeholder="Your name"
-                  className="bg-muted/20 border-border/30"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="signature" className="text-foreground/80">Email Signature</Label>
+                <Label htmlFor="signature" className="text-[13px] text-foreground/70 font-medium">Email Signature</Label>
                 <textarea
                   id="signature"
                   value={settings.emailSignature || ''}
@@ -138,7 +137,7 @@ export default function SettingsPage() {
                   onBlur={() => save({ emailSignature: settings.emailSignature })}
                   placeholder="Your email signature..."
                   rows={4}
-                  className="flex w-full rounded-md border border-border/30 bg-muted/20 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:shadow-[0_0_0_3px_rgba(59,130,246,0.08)] transition-all"
+                  className="flex w-full rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-0 focus-visible:border-primary/20 focus-visible:bg-white/[0.04] transition-all duration-200"
                 />
               </div>
             </CardContent>
@@ -147,17 +146,17 @@ export default function SettingsPage() {
           {/* Appearance */}
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2">
-                <Palette className="h-4 w-4 text-muted-foreground/60" />
-                <CardTitle className="text-lg tracking-tight">Appearance</CardTitle>
+              <div className="flex items-center gap-2.5">
+                <Palette className="h-4 w-4 text-muted-foreground/50" />
+                <CardTitle className="text-[16px] tracking-tight font-semibold">Appearance</CardTitle>
               </div>
-              <CardDescription className="text-muted-foreground/50">Customize the look and feel</CardDescription>
+              <CardDescription className="text-muted-foreground/40 text-[13px]">Customize the look and feel</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-foreground/80">Theme</Label>
-                  <p className="text-xs text-muted-foreground/40 mt-1">Choose your preferred theme</p>
+                  <Label className="text-[13px] text-foreground/70 font-medium">Theme</Label>
+                  <p className="text-[12px] text-muted-foreground/35 mt-1">Choose your preferred theme</p>
                 </div>
                 <Select
                   value={settings.theme}
@@ -167,7 +166,7 @@ export default function SettingsPage() {
                     { value: 'dark', label: 'Dark' },
                     { value: 'system', label: 'System' },
                   ]}
-                  className="w-32 bg-muted/20 border-border/30"
+                  className="w-32"
                 />
               </div>
             </CardContent>
@@ -176,17 +175,17 @@ export default function SettingsPage() {
           {/* AI Preferences */}
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2">
-                <Brain className="h-4 w-4 text-muted-foreground/60" />
-                <CardTitle className="text-lg tracking-tight">AI Preferences</CardTitle>
+              <div className="flex items-center gap-2.5">
+                <Brain className="h-4 w-4 text-muted-foreground/50" />
+                <CardTitle className="text-[16px] tracking-tight font-semibold">AI Preferences</CardTitle>
               </div>
-              <CardDescription className="text-muted-foreground/50">Control AI-powered features</CardDescription>
+              <CardDescription className="text-muted-foreground/40 text-[13px]">Control AI-powered features</CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-foreground/80">Email Classification</Label>
-                  <p className="text-xs text-muted-foreground/40 mt-1">Auto-categorize incoming emails</p>
+                  <Label className="text-[13px] text-foreground/70 font-medium">Email Classification</Label>
+                  <p className="text-[12px] text-muted-foreground/35 mt-1">Auto-categorize incoming emails</p>
                 </div>
                 <Switch
                   checked={settings.aiClassification}
@@ -196,8 +195,8 @@ export default function SettingsPage() {
               <div className="divider-subtle" />
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-foreground/80">Reply Suggestions</Label>
-                  <p className="text-xs text-muted-foreground/40 mt-1">Get AI-generated reply suggestions</p>
+                  <Label className="text-[13px] text-foreground/70 font-medium">Reply Suggestions</Label>
+                  <p className="text-[12px] text-muted-foreground/35 mt-1">Get AI-generated reply suggestions</p>
                 </div>
                 <Switch
                   checked={settings.aiReplySuggestions}
@@ -207,8 +206,8 @@ export default function SettingsPage() {
               <div className="divider-subtle" />
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-foreground/80">Default Compose Tone</Label>
-                  <p className="text-xs text-muted-foreground/40 mt-1">AI writing style for composed emails</p>
+                  <Label className="text-[13px] text-foreground/70 font-medium">Default Compose Tone</Label>
+                  <p className="text-[12px] text-muted-foreground/35 mt-1">AI writing style for composed emails</p>
                 </div>
                 <Select
                   value={settings.aiComposeTone}
@@ -218,7 +217,7 @@ export default function SettingsPage() {
                     { value: 'casual', label: 'Casual' },
                     { value: 'friendly', label: 'Friendly' },
                   ]}
-                  className="w-40 bg-muted/20 border-border/30"
+                  className="w-40"
                 />
               </div>
             </CardContent>

@@ -65,25 +65,28 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
   }
 
   return (
-    <div className="fixed bottom-0 right-6 z-50 flex flex-col" style={{ width: 560 }}>
-      <div className="shadow-elevated rounded-t-xl border border-border/40 bg-card/95 backdrop-blur-xl">
+    <div className="fixed bottom-0 right-6 z-50 flex flex-col animate-fade-in-scale" style={{ width: 560 }}>
+      <div className="shadow-elevated rounded-t-2xl border border-white/[0.06] bg-card/95 backdrop-blur-2xl overflow-hidden">
+        {/* Subtle top accent */}
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border/30 bg-muted/50 px-4 py-2.5 rounded-t-xl cursor-pointer"
+        <div className="flex items-center justify-between border-b border-white/[0.04] bg-white/[0.02] px-4 py-3 cursor-pointer"
           onClick={() => setMinimized(!minimized)}
         >
-          <h3 className="text-sm font-semibold text-foreground tracking-tight">New Message</h3>
+          <h3 className="text-[13px] font-semibold text-foreground tracking-tight">New Message</h3>
           <div className="flex items-center gap-0.5">
             <button
               onClick={(e) => { e.stopPropagation(); setMinimized(!minimized); }}
-              className="flex h-6 w-6 items-center justify-center rounded-md transition-all duration-150 hover:bg-muted/60 hover:scale-110"
+              className="toolbar-btn !h-6 !w-6"
             >
-              <Minus className="h-3.5 w-3.5 text-muted-foreground/60" />
+              <Minus className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); onOpenChange(false); }}
-              className="flex h-6 w-6 items-center justify-center rounded-md transition-all duration-150 hover:bg-muted/60 hover:scale-110"
+              className="toolbar-btn !h-6 !w-6"
             >
-              <X className="h-3.5 w-3.5 text-muted-foreground/60" />
+              <X className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>
@@ -91,51 +94,51 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
         {!minimized && (
           <>
             {/* Fields */}
-            <div className="divide-y divide-border/30">
-              <div className="flex items-center gap-2 px-4 py-1.5">
-                <span className="text-[13px] text-muted-foreground/60 w-8 font-medium">To</span>
+            <div className="divide-y divide-white/[0.03]">
+              <div className="flex items-center gap-2 px-4 py-2">
+                <span className="text-[13px] text-muted-foreground/40 w-8 font-medium">To</span>
                 <input
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
                   placeholder="Recipients"
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/30 tracking-tight"
+                  className="flex-1 bg-transparent text-[13px] outline-none placeholder:text-muted-foreground/25 tracking-tight"
                 />
-                <div className="flex gap-1.5 text-[12px] text-muted-foreground/50">
+                <div className="flex gap-1.5 text-[12px] text-muted-foreground/35">
                   {!showCc && (
-                    <button onClick={() => setShowCc(true)} className="hover:text-foreground transition-colors">Cc</button>
+                    <button onClick={() => setShowCc(true)} className="hover:text-foreground/60 transition-colors">Cc</button>
                   )}
                   {!showBcc && (
-                    <button onClick={() => setShowBcc(true)} className="hover:text-foreground transition-colors">Bcc</button>
+                    <button onClick={() => setShowBcc(true)} className="hover:text-foreground/60 transition-colors">Bcc</button>
                   )}
                 </div>
               </div>
               {showCc && (
-                <div className="flex items-center gap-2 px-4 py-1.5">
-                  <span className="text-[13px] text-muted-foreground/60 w-8 font-medium">Cc</span>
+                <div className="flex items-center gap-2 px-4 py-2">
+                  <span className="text-[13px] text-muted-foreground/40 w-8 font-medium">Cc</span>
                   <input
                     value={cc}
                     onChange={(e) => setCc(e.target.value)}
-                    className="flex-1 bg-transparent text-sm outline-none tracking-tight"
+                    className="flex-1 bg-transparent text-[13px] outline-none tracking-tight"
                   />
                 </div>
               )}
               {showBcc && (
-                <div className="flex items-center gap-2 px-4 py-1.5">
-                  <span className="text-[13px] text-muted-foreground/60 w-8 font-medium">Bcc</span>
+                <div className="flex items-center gap-2 px-4 py-2">
+                  <span className="text-[13px] text-muted-foreground/40 w-8 font-medium">Bcc</span>
                   <input
                     value={bcc}
                     onChange={(e) => setBcc(e.target.value)}
-                    className="flex-1 bg-transparent text-sm outline-none tracking-tight"
+                    className="flex-1 bg-transparent text-[13px] outline-none tracking-tight"
                   />
                 </div>
               )}
-              <div className="flex items-center gap-2 px-4 py-1.5">
+              <div className="flex items-center gap-2 px-4 py-2">
                 <span className="text-[13px] text-muted-foreground w-8 sr-only">Subject</span>
                 <input
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Subject"
-                  className="flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-muted-foreground/30 tracking-tight"
+                  className="flex-1 bg-transparent text-[13px] font-medium outline-none placeholder:text-muted-foreground/25 tracking-tight"
                 />
               </div>
             </div>
@@ -147,24 +150,24 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                 onChange={(e) => setBody(e.target.value)}
                 placeholder="Write your email..."
                 rows={12}
-                className="w-full resize-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground/30"
+                className="w-full resize-none bg-transparent text-[13px] leading-relaxed outline-none placeholder:text-muted-foreground/25"
               />
             </div>
 
             {/* AI Compose */}
             {showAi && (
-              <div className="px-4 pb-2">
+              <div className="px-4 pb-3">
                 <AiCompose onInsert={(text) => { setBody(text); setShowAi(false); }} />
               </div>
             )}
 
             {/* Footer */}
-            <div className="flex items-center gap-2 border-t border-border/30 px-4 py-2.5">
+            <div className="flex items-center gap-2 border-t border-white/[0.04] px-4 py-3 bg-white/[0.01]">
               <Button
                 onClick={handleSend}
                 disabled={sending}
                 size="sm"
-                className="rounded-lg px-5"
+                className="rounded-xl px-5 btn-compose !shadow-none"
               >
                 <Send className="mr-1.5 h-3.5 w-3.5" />
                 {sending ? 'Sending...' : 'Send'}
@@ -173,7 +176,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowAi(!showAi)}
-                className="text-muted-foreground/70 hover:text-primary"
+                className="text-muted-foreground/50 hover:text-primary rounded-xl"
               >
                 <Sparkles className="mr-1 h-3.5 w-3.5" />
                 AI Assist
@@ -181,7 +184,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
               <div className="flex-1" />
               <button
                 onClick={() => { onOpenChange(false); setTo(''); setSubject(''); setBody(''); }}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground/50 transition-all duration-200 hover:bg-muted/40 hover:text-foreground hover:scale-105"
+                className="toolbar-btn"
                 title="Discard"
               >
                 <Trash2 className="h-4 w-4" />
