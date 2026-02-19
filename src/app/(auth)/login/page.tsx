@@ -29,14 +29,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-b from-slate-50 to-white">
-      <Card className="w-full max-w-md border-border shadow-xl">
+    <div className="bg-radial-glow flex min-h-screen items-center justify-center p-4 bg-background">
+      <Card className="glass shadow-atmospheric relative z-10 w-full max-w-md rounded-2xl border-border/50">
         <CardHeader className="text-center pb-2">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
+            <div className="glow-sm flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
               <Mail className="h-4.5 w-4.5 text-white" />
             </div>
-            <span className="text-lg font-semibold tracking-tight">Monsoft Mail</span>
+            <span className="text-lg font-semibold tracking-tight text-gradient">Monsoft Mail</span>
           </div>
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>Sign in to your account</CardDescription>
@@ -55,7 +55,7 @@ export default function LoginPage() {
                 <p className="text-[12px] text-destructive">{errors.password.message}</p>
               )}
             </div>
-            <Button type="submit" className="w-full rounded-lg" disabled={isSubmitting}>
+            <Button type="submit" className="w-full rounded-lg hover:glow-primary" disabled={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>

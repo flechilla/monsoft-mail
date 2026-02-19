@@ -67,24 +67,24 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
 
   return (
     <div className="fixed bottom-0 right-6 z-50 flex flex-col" style={{ width: 560 }}>
-      <div className="rounded-t-xl border border-border bg-background shadow-2xl">
+      <div className="shadow-atmospheric rounded-t-xl border border-border/50 bg-card">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border bg-slate-800 px-4 py-2 rounded-t-xl cursor-pointer"
+        <div className="flex items-center justify-between border-b border-border/50 bg-muted/80 px-4 py-2 rounded-t-xl cursor-pointer"
           onClick={() => setMinimized(!minimized)}
         >
-          <h3 className="text-sm font-medium text-white">New Message</h3>
+          <h3 className="text-sm font-medium text-foreground">New Message</h3>
           <div className="flex items-center gap-1">
             <button
               onClick={(e) => { e.stopPropagation(); setMinimized(!minimized); }}
-              className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10"
+              className="flex h-6 w-6 items-center justify-center rounded transition-all hover:bg-muted hover:scale-110"
             >
-              <Minus className="h-3.5 w-3.5 text-white/70" />
+              <Minus className="h-3.5 w-3.5 text-muted-foreground" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); onOpenChange(false); }}
-              className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10"
+              className="flex h-6 w-6 items-center justify-center rounded transition-all hover:bg-muted hover:scale-110"
             >
-              <X className="h-3.5 w-3.5 text-white/70" />
+              <X className="h-3.5 w-3.5 text-muted-foreground" />
             </button>
           </div>
         </div>
@@ -92,14 +92,14 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
         {!minimized && (
           <>
             {/* Fields */}
-            <div className="divide-y divide-border">
+            <div className="divide-y divide-border/50">
               <div className="flex items-center gap-2 px-4 py-1.5">
                 <span className="text-[13px] text-muted-foreground w-8">To</span>
                 <input
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
                   placeholder="Recipients"
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/40"
                 />
                 <div className="flex gap-1 text-[12px] text-muted-foreground">
                   {!showCc && (
@@ -136,7 +136,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Subject"
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/40"
                 />
               </div>
             </div>
@@ -148,7 +148,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                 onChange={(e) => setBody(e.target.value)}
                 placeholder="Write your email..."
                 rows={12}
-                className="w-full resize-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground/50"
+                className="w-full resize-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground/40"
               />
             </div>
 
@@ -160,7 +160,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
             )}
 
             {/* Footer */}
-            <div className="flex items-center gap-2 border-t border-border px-4 py-2.5">
+            <div className="flex items-center gap-2 border-t border-border/50 px-4 py-2.5">
               <Button
                 onClick={handleSend}
                 disabled={sending}
@@ -182,7 +182,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
               <div className="flex-1" />
               <button
                 onClick={() => { onOpenChange(false); setTo(''); setSubject(''); setBody(''); }}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-all hover:bg-muted/50 hover:text-foreground hover:scale-105"
                 title="Discard"
               >
                 <Trash2 className="h-4 w-4" />

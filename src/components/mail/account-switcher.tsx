@@ -31,7 +31,7 @@ export function AccountSwitcher() {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-sm hover:bg-muted"
+        className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-sm transition-all hover:bg-muted/50"
       >
         <MailAvatar
           email={selected?.email || ''}
@@ -50,12 +50,12 @@ export function AccountSwitcher() {
       </button>
 
       {open && (
-        <div className="absolute bottom-full left-0 mb-1 w-full rounded-lg border border-border bg-background shadow-lg z-50">
+        <div className="shadow-atmospheric absolute bottom-full left-0 mb-1 w-full rounded-lg border border-border/50 bg-card z-50">
           {accounts.map((account) => (
             <button
               key={account.id}
               onClick={() => { setSelected(account); setOpen(false); }}
-              className={`flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-sm hover:bg-muted ${
+              className={`flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-sm transition-all hover:bg-muted/50 ${
                 selected?.id === account.id ? 'bg-primary/5' : ''
               }`}
             >
@@ -68,7 +68,7 @@ export function AccountSwitcher() {
           ))}
           <button
             onClick={() => setOpen(false)}
-            className="flex w-full items-center gap-2 border-t border-border px-3 py-2.5 text-[13px] text-muted-foreground hover:bg-muted"
+            className="flex w-full items-center gap-2 border-t border-border/50 px-3 py-2.5 text-[13px] text-muted-foreground transition-all hover:bg-muted/50"
           >
             <Plus className="h-3.5 w-3.5" />
             Add account

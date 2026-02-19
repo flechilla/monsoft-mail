@@ -40,11 +40,11 @@ interface Email {
 }
 
 const categoryColors: Record<string, string> = {
-  primary: 'bg-blue-50 text-blue-600',
-  updates: 'bg-emerald-50 text-emerald-600',
-  promotions: 'bg-amber-50 text-amber-600',
-  social: 'bg-purple-50 text-purple-600',
-  forums: 'bg-orange-50 text-orange-600',
+  primary: 'bg-blue-500/10 text-blue-400',
+  updates: 'bg-emerald-500/10 text-emerald-400',
+  promotions: 'bg-amber-500/10 text-amber-400',
+  social: 'bg-purple-500/10 text-purple-400',
+  forums: 'bg-orange-500/10 text-orange-400',
 };
 
 export function EmailView({ emailId }: { emailId: string }) {
@@ -95,7 +95,7 @@ export function EmailView({ emailId }: { emailId: string }) {
   return (
     <div className="flex h-full flex-col">
       {/* Subject header + action toolbar */}
-      <div className="border-b border-border px-6 py-4">
+      <div className="border-b border-border/50 px-6 py-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
@@ -108,23 +108,23 @@ export function EmailView({ emailId }: { emailId: string }) {
                 </span>
               )}
               {email.aiPriority != null && email.aiPriority <= 2 && (
-                <span className="rounded-full bg-red-50 px-2.5 py-0.5 text-[11px] font-medium text-red-600">
+                <span className="rounded-full bg-red-500/10 px-2.5 py-0.5 text-[11px] font-medium text-red-400">
                   Priority {email.aiPriority}
                 </span>
               )}
             </div>
           </div>
           <div className="flex items-center gap-0.5 shrink-0">
-            <button className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-muted" title="Archive (e)">
+            <button className="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-muted/50 hover:scale-105" title="Archive (e)">
               <Archive className="h-4 w-4 text-muted-foreground" />
             </button>
-            <button className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-muted" title="Delete (#)">
+            <button className="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-muted/50 hover:scale-105" title="Delete (#)">
               <Trash2 className="h-4 w-4 text-muted-foreground" />
             </button>
-            <button className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-muted" title="Mark unread">
+            <button className="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-muted/50 hover:scale-105" title="Mark unread">
               <MailOpen className="h-4 w-4 text-muted-foreground" />
             </button>
-            <button className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-muted" title="Star (s)">
+            <button className="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-muted/50 hover:scale-105" title="Star (s)">
               <Star className={`h-4 w-4 ${email.isStarred ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground'}`} />
             </button>
           </div>
@@ -136,14 +136,14 @@ export function EmailView({ emailId }: { emailId: string }) {
         <div className="mx-auto max-w-3xl px-6 py-5">
           {/* AI Summary */}
           {email.aiSummary && (
-            <div className="mb-5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 px-4 py-3">
+            <div className="mb-5 rounded-xl border border-primary/15 bg-primary/5 px-4 py-3">
               <div className="flex items-center gap-1.5 mb-1">
-                <Sparkles className="h-3.5 w-3.5 text-blue-500" />
-                <span className="text-[11px] font-semibold text-blue-600 uppercase tracking-wider">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <span className="text-[11px] font-semibold text-primary uppercase tracking-wider">
                   AI Summary
                 </span>
               </div>
-              <p className="text-sm text-slate-700 leading-relaxed">{email.aiSummary}</p>
+              <p className="text-sm text-foreground/80 leading-relaxed">{email.aiSummary}</p>
             </div>
           )}
 
@@ -163,16 +163,16 @@ export function EmailView({ emailId }: { emailId: string }) {
                 </span>
                 <button
                   onClick={() => setShowHeaders(!showHeaders)}
-                  className="flex h-4 w-4 items-center justify-center rounded hover:bg-muted"
+                  className="flex h-4 w-4 items-center justify-center rounded hover:bg-muted/50"
                 >
                   <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform ${showHeaders ? 'rotate-180' : ''}`} />
                 </button>
-                <span className="ml-auto text-[12px] text-muted-foreground">
+                <span className="ml-auto font-mono text-[12px] text-muted-foreground/70 tabular-nums">
                   {formatDistanceToNow(dateStr)} · {new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </span>
               </div>
               {showHeaders && (
-                <div className="mt-2 rounded-lg bg-muted/50 p-3 text-[12px] text-muted-foreground space-y-1">
+                <div className="mt-2 rounded-lg border border-border/50 bg-muted/30 p-3 text-[12px] text-muted-foreground space-y-1">
                   <div><span className="font-medium">From:</span> {email.from}</div>
                   <div><span className="font-medium">To:</span> {email.to?.join(', ')}</div>
                   {email.cc && email.cc.length > 0 && (
@@ -185,7 +185,7 @@ export function EmailView({ emailId }: { emailId: string }) {
           </div>
 
           {/* Body */}
-          <div className="border-t border-border pt-5">
+          <div className="border-t border-border/50 pt-5">
             {email.bodyHtml ? (
               <div
                 className="prose prose-sm max-w-none text-foreground prose-a:text-primary prose-blockquote:border-border prose-blockquote:text-muted-foreground"
@@ -203,7 +203,7 @@ export function EmailView({ emailId }: { emailId: string }) {
       </div>
 
       {/* Reply bar */}
-      <div className="border-t border-border px-6 py-4">
+      <div className="border-t border-border/50 px-6 py-4">
         <ReplySuggestions email={email} />
         <div className="flex items-center gap-2 mt-3">
           <Button

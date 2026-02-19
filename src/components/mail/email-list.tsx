@@ -13,11 +13,11 @@ interface EmailListProps {
 }
 
 const categoryColors: Record<string, string> = {
-  primary: 'bg-blue-50 text-blue-600 border-blue-200',
-  updates: 'bg-emerald-50 text-emerald-600 border-emerald-200',
-  promotions: 'bg-amber-50 text-amber-600 border-amber-200',
-  social: 'bg-purple-50 text-purple-600 border-purple-200',
-  forums: 'bg-orange-50 text-orange-600 border-orange-200',
+  primary: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  updates: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  promotions: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  social: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+  forums: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
 };
 
 function getFilterParams(filter: MailFilter) {
@@ -43,7 +43,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
 
   if (loading) {
     return (
-      <div className="space-y-1 p-2">
+      <div className="space-y-0.5 p-2">
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i} className="flex items-center gap-3 rounded-lg p-3">
             <div className="h-9 w-9 shrink-0 animate-pulse rounded-full bg-muted" />
@@ -67,7 +67,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
   }
 
   return (
-    <div className="space-y-0.5 p-1.5">
+    <div className="space-y-px p-1.5">
       {emails.map((email) => {
         const isOutbound = email.direction === 'outbound';
         const displayName = isOutbound
@@ -83,17 +83,15 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
           <button
             key={email.id}
             onClick={() => onSelectEmail(email.id)}
-            className={`email-row group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-all ${
+            className={`email-row group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition-all ${
               isSelected
-                ? 'bg-primary/8 shadow-sm'
-                : isUnread
-                  ? 'bg-blue-50/40 hover:bg-muted'
-                  : 'hover:bg-muted/60'
+                ? 'border-l-2 border-primary bg-primary/8 shadow-sm'
+                : 'hover:bg-muted/50 hover:translate-x-0.5'
             }`}
           >
             {/* Unread indicator */}
-            <div className="w-0.5 self-stretch rounded-full shrink-0">
-              {isUnread && <div className="h-full w-full rounded-full bg-primary" />}
+            <div className="w-1.5 self-stretch shrink-0 flex items-center">
+              {isUnread && <div className="h-1.5 w-1.5 rounded-full bg-primary" />}
             </div>
 
             {/* Avatar */}
@@ -113,21 +111,21 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
                   {/* Hover actions */}
                   <div className="hover-actions items-center gap-0.5">
                     <button
-                      className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-background hover:shadow-sm"
+                      className="flex h-7 w-7 items-center justify-center rounded-md transition-all hover:bg-muted hover:shadow-sm hover:scale-110"
                       title="Archive (e)"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Archive className="h-3.5 w-3.5 text-muted-foreground" />
                     </button>
                     <button
-                      className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-background hover:shadow-sm"
+                      className="flex h-7 w-7 items-center justify-center rounded-md transition-all hover:bg-muted hover:shadow-sm hover:scale-110"
                       title="Delete (#)"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
                     </button>
                     <button
-                      className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-background hover:shadow-sm"
+                      className="flex h-7 w-7 items-center justify-center rounded-md transition-all hover:bg-muted hover:shadow-sm hover:scale-110"
                       title={isUnread ? 'Mark read' : 'Mark unread'}
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -145,7 +143,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
                   )}
 
                   {/* Time */}
-                  <span className="hide-on-hover text-[11px] text-muted-foreground whitespace-nowrap">
+                  <span className="hide-on-hover font-mono text-[11px] text-muted-foreground/70 whitespace-nowrap tabular-nums">
                     {formatDistanceToNow(dateStr)}
                   </span>
                 </div>
@@ -157,7 +155,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
               </div>
               <div className="flex items-center gap-2 mt-0.5">
                 {email.snippet && (
-                  <p className="truncate text-[12px] text-muted-foreground/70 flex-1">
+                  <p className="truncate text-[12px] text-muted-foreground/50 flex-1">
                     {email.snippet}
                   </p>
                 )}
@@ -170,7 +168,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
                     </span>
                   )}
                   {email.aiPriority != null && email.aiPriority <= 2 && (
-                    <span className="rounded-full border border-red-200 bg-red-50 px-2 py-0 text-[10px] font-medium text-red-600">
+                    <span className="rounded-full border border-red-500/20 bg-red-500/10 px-2 py-0 text-[10px] font-medium text-red-400">
                       P{email.aiPriority}
                     </span>
                   )}
