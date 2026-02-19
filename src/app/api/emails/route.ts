@@ -14,6 +14,9 @@ export async function GET(req: NextRequest) {
   const accountId = searchParams.get('accountId');
   const labelId = searchParams.get('labelId');
   const isRead = searchParams.get('isRead');
+  const direction = searchParams.get('direction');
+  const isStarred = searchParams.get('isStarred');
+  const status = searchParams.get('status');
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '50');
   const offset = (page - 1) * limit;
@@ -35,6 +38,18 @@ export async function GET(req: NextRequest) {
 
   if (isRead !== null && isRead !== undefined) {
     conditions.push(eq(emails.isRead, isRead === 'true'));
+  }
+
+  if (direction) {
+    conditions.push(eq(emails.direction, direction as 'inbound' | 'outbound'));
+  }
+
+  if (isStarred !== null && isStarred !== undefined) {
+    conditions.push(eq(emails.isStarred, isStarred === 'true'));
+  }
+
+  if (status) {
+    conditions.push(eq(emails.status, status as 'draft' | 'sent' | 'delivered' | 'failed'));
   }
 
   const where = conditions.length > 0 ? and(...conditions) : undefined;

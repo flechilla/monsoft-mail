@@ -14,20 +14,21 @@ import {
 import { Button } from '@/components/ui/button';
 import { AccountSwitcher } from './account-switcher';
 import { ComposeDialog } from './compose-dialog';
+import { useMailFilter, type MailFilter } from './mail-context';
 
-const navItems = [
-  { label: 'Inbox', icon: Inbox, href: '/mail?label=Inbox' },
-  { label: 'Starred', icon: Star, href: '/mail?label=Starred' },
-  { label: 'Sent', icon: Send, href: '/mail?label=Sent' },
-  { label: 'Drafts', icon: FileEdit, href: '/mail?label=Drafts' },
-  { label: 'All Mail', icon: Mail, href: '/mail' },
-  { label: 'Spam', icon: AlertTriangle, href: '/mail?label=Spam' },
-  { label: 'Trash', icon: Trash2, href: '/mail?label=Trash' },
+const navItems: { label: string; icon: typeof Inbox; filter: MailFilter }[] = [
+  { label: 'Inbox', icon: Inbox, filter: 'inbox' },
+  { label: 'Starred', icon: Star, filter: 'starred' },
+  { label: 'Sent', icon: Send, filter: 'sent' },
+  { label: 'Drafts', icon: FileEdit, filter: 'drafts' },
+  { label: 'All Mail', icon: Mail, filter: 'all' },
+  { label: 'Spam', icon: AlertTriangle, filter: 'spam' },
+  { label: 'Trash', icon: Trash2, filter: 'trash' },
 ];
 
 export function Sidebar() {
   const [composeOpen, setComposeOpen] = useState(false);
-  const [activeLabel, setActiveLabel] = useState('Inbox');
+  const { filter, setFilter } = useMailFilter();
 
   return (
     <aside className="flex w-64 flex-col border-r bg-muted/30">
@@ -49,9 +50,9 @@ export function Sidebar() {
         {navItems.map((item) => (
           <button
             key={item.label}
-            onClick={() => setActiveLabel(item.label)}
+            onClick={() => setFilter(item.filter)}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-              activeLabel === item.label
+              filter === item.filter
                 ? 'bg-primary/10 font-medium text-primary'
                 : 'text-muted-foreground hover:bg-muted hover:text-foreground'
             }`}
