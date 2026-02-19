@@ -30,7 +30,7 @@ export default function LoginPage() {
 
   return (
     <div className="bg-radial-glow flex min-h-screen items-center justify-center p-4 bg-background">
-      <Card className="glass shadow-atmospheric relative z-10 w-full max-w-md rounded-2xl border-border/50">
+      <Card className="!bg-card/95 backdrop-blur-xl shadow-atmospheric relative z-10 w-full max-w-md rounded-2xl border-border/50">
         <CardHeader className="text-center pb-2">
           <div className="flex items-center justify-center gap-2 mb-2">
             <div className="glow-sm flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
