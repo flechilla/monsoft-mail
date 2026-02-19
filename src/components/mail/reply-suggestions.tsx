@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 
@@ -44,16 +44,14 @@ export function ReplySuggestions({ email }: ReplySuggestionsProps) {
 
   if (!loaded) {
     return (
-      <Button
-        variant="ghost"
-        size="sm"
+      <button
         onClick={fetchSuggestions}
         disabled={loading}
-        className="text-xs"
+        className="flex items-center gap-1.5 rounded-full border border-blue-100 bg-blue-50/50 px-3 py-1.5 text-[12px] font-medium text-blue-600 hover:bg-blue-50 disabled:opacity-50"
       >
-        <Sparkles className="mr-1 h-3 w-3" />
+        <Sparkles className="h-3 w-3" />
         {loading ? 'Generating...' : 'Suggest replies'}
-      </Button>
+      </button>
     );
   }
 
@@ -62,10 +60,10 @@ export function ReplySuggestions({ email }: ReplySuggestionsProps) {
       {suggestions.map((s, i) => (
         <button
           key={i}
-          className="rounded-full border bg-muted/50 px-3 py-1 text-xs transition-colors hover:bg-muted"
+          className="rounded-full border border-border bg-muted/50 px-3.5 py-1.5 text-[12px] text-foreground hover:bg-muted hover:shadow-sm"
           title={s.body}
         >
-          {s.tone}: {s.body.slice(0, 60)}...
+          {s.body.slice(0, 55)}…
         </button>
       ))}
     </div>
