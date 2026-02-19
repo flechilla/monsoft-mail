@@ -88,8 +88,8 @@ export default function SettingsPage() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-2xl px-6 py-8 animate-fade-in">
         <div className="mb-8 flex items-center gap-3.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/[0.08] border border-primary/10">
-            <Settings className="h-5 w-5 text-primary drop-shadow-[0_0_6px_rgba(59,130,246,0.3)]" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/[0.08] border border-primary/10">
+            <Settings className="h-5 w-5 text-primary" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-foreground tracking-[-0.02em]">Settings</h1>
@@ -137,7 +137,7 @@ export default function SettingsPage() {
                   onBlur={() => save({ emailSignature: settings.emailSignature })}
                   placeholder="Your email signature..."
                   rows={4}
-                  className="flex w-full rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-0 focus-visible:border-primary/20 focus-visible:bg-white/[0.04] transition-all duration-200"
+                  className="flex w-full rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-0 focus-visible:border-primary/20 focus-visible:bg-white/[0.04] transition-all duration-200"
                 />
               </div>
             </CardContent>

@@ -9,7 +9,7 @@ export function SearchBar() {
 
   return (
     <div
-      className={`relative flex items-center w-full max-w-md rounded-xl border transition-all duration-300 ${
+      className={`relative flex items-center w-full max-w-md rounded-md border transition-all duration-300 ${
         focused
           ? 'border-primary/20 bg-white/[0.04] shadow-[0_0_0_3px_rgba(59,130,246,0.06),0_0_20px_-4px_rgba(59,130,246,0.1)]'
           : 'border-white/[0.06] bg-white/[0.02] hover:border-white/[0.08] hover:bg-white/[0.03]'

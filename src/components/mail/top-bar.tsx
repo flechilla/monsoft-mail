@@ -14,13 +14,13 @@ export function TopBar() {
   }
 
   return (
-    <header className="glass flex h-[52px] items-center gap-4 border-b border-white/[0.05] px-4 shadow-[0_1px_0_rgba(255,255,255,0.02),0_4px_20px_-4px_rgba(0,0,0,0.3)] relative z-20">
+    <header className="flex h-[52px] items-center gap-4 border-b border-white/[0.06] bg-background px-4 relative z-20">
       {/* Brand */}
       <div className="flex items-center gap-2.5 shrink-0">
-        <div className="glow-sm flex h-8 w-8 items-center justify-center rounded-[10px] bg-gradient-to-br from-blue-500 to-indigo-600 shadow-[0_2px_8px_rgba(59,130,246,0.3)]">
-          <Mail className="h-4 w-4 text-white" strokeWidth={2.2} />
+        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
+          <Mail className="h-3.5 w-3.5 text-white" strokeWidth={2.2} />
         </div>
-        <span className="text-[15px] font-bold tracking-tight text-gradient">
+        <span className="text-[14px] font-semibold tracking-tight text-foreground">
           Monsoft Mail
         </span>
       </div>

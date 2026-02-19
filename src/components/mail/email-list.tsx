@@ -45,7 +45,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
     return (
       <div className="space-y-1 p-2">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3" style={{ animationDelay: `${i * 50}ms` }}>
+          <div key={i} className="flex items-center gap-3 rounded-md px-4 py-3" style={{ animationDelay: `${i * 50}ms` }}>
             <div className="h-9 w-9 shrink-0 animate-pulse rounded-full bg-white/[0.04]" />
             <div className="flex-1 space-y-2.5">
               <div className="h-3.5 w-28 animate-pulse rounded-md bg-white/[0.04]" />
@@ -61,7 +61,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
   if (emails.length === 0) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 text-muted-foreground px-6">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.03] border border-white/[0.04]">
+        <div className="flex h-14 w-14 items-center justify-center rounded-md bg-white/[0.03] border border-white/[0.04]">
           <Mail className="h-6 w-6 text-muted-foreground/25" strokeWidth={1.5} />
         </div>
         <div className="text-center">
@@ -89,7 +89,7 @@ export function EmailList({ selectedEmailId, onSelectEmail }: EmailListProps) {
           <button
             key={email.id}
             onClick={() => onSelectEmail(email.id)}
-            className={`email-row email-row-premium group flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-all duration-200 animate-fade-in ${
+            className={`email-row email-row-premium group flex w-full items-center gap-3 rounded-md px-3 py-3 text-left transition-all duration-200 animate-fade-in ${
               isSelected
                 ? 'nav-active bg-primary/[0.07] shadow-[inset_0_1px_0_rgba(59,130,246,0.05),0_0_0_1px_rgba(59,130,246,0.08)] border border-primary/[0.06]'
                 : 'hover:bg-white/[0.03] hover:shadow-[0_2px_8px_-2px_rgba(0,0,0,0.2)] border border-transparent'

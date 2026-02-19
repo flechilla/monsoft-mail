@@ -46,7 +46,7 @@ export function ReplySuggestions({ email }: ReplySuggestionsProps) {
       <button
         onClick={fetchSuggestions}
         disabled={loading}
-        className="flex items-center gap-1.5 rounded-full border border-primary/15 bg-primary/[0.05] px-3.5 py-1.5 text-[12px] font-medium text-primary/80 hover:bg-primary/[0.08] hover:text-primary disabled:opacity-50 transition-all duration-200"
+        className="flex items-center gap-1.5 rounded-md border border-primary/15 bg-primary/[0.05] px-3 py-1.5 text-[12px] font-medium text-primary/80 hover:bg-primary/[0.08] hover:text-primary disabled:opacity-50 transition-all duration-200"
       >
         <Sparkles className="h-3 w-3" />
         {loading ? 'Generating...' : 'Suggest replies'}
@@ -59,7 +59,7 @@ export function ReplySuggestions({ email }: ReplySuggestionsProps) {
       {suggestions.map((s, i) => (
         <button
           key={i}
-          className="rounded-full border border-white/[0.06] bg-white/[0.03] px-3.5 py-1.5 text-[12px] text-foreground/70 hover:bg-white/[0.06] hover:text-foreground hover:border-white/[0.1] transition-all duration-200"
+          className="rounded-md border border-white/[0.06] bg-white/[0.03] px-3 py-1.5 text-[12px] text-foreground/70 hover:bg-white/[0.06] hover:text-foreground hover:border-white/[0.1] transition-all duration-200"
           title={s.body}
         >
           {s.body.slice(0, 55)}…

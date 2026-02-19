@@ -72,7 +72,7 @@ export function EmailView({ emailId }: { emailId: string }) {
   if (loading) {
     return (
       <div className="p-8 space-y-5 animate-fade-in">
-        <div className="h-7 w-2/3 animate-pulse rounded-lg bg-white/[0.04]" />
+        <div className="h-7 w-2/3 animate-pulse rounded-md bg-white/[0.04]" />
         <div className="h-4 w-1/3 animate-pulse rounded-md bg-white/[0.03]" />
         <div className="h-px bg-white/[0.04] mt-4" />
         <div className="flex items-center gap-3 mt-4">
@@ -82,7 +82,7 @@ export function EmailView({ emailId }: { emailId: string }) {
             <div className="h-3 w-48 animate-pulse rounded-md bg-white/[0.03]" />
           </div>
         </div>
-        <div className="h-48 animate-pulse rounded-xl bg-white/[0.03] mt-6" />
+        <div className="h-48 animate-pulse rounded-md bg-white/[0.03] mt-6" />
       </div>
     );
   }
@@ -111,12 +111,12 @@ export function EmailView({ emailId }: { emailId: string }) {
                 {email.subject}
               </h1>
               {category && categoryColors[category] && (
-                <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${categoryColors[category]}`}>
+                <span className={`rounded-sm px-2 py-0.5 text-[11px] font-semibold ${categoryColors[category]}`}>
                   {email.aiCategory}
                 </span>
               )}
               {email.aiPriority != null && email.aiPriority <= 2 && (
-                <span className="rounded-full bg-red-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-red-400">
+                <span className="rounded-sm bg-red-500/10 px-2 py-0.5 text-[11px] font-semibold text-red-400">
                   Priority {email.aiPriority}
                 </span>
               )}
@@ -144,7 +144,7 @@ export function EmailView({ emailId }: { emailId: string }) {
         <div className="mx-auto max-w-3xl px-6 py-6">
           {/* AI Summary */}
           {email.aiSummary && (
-            <div className="mb-6 rounded-xl border border-primary/[0.08] bg-gradient-to-br from-primary/[0.05] to-primary/[0.02] px-4 py-4 shadow-[0_0_30px_-8px_rgba(59,130,246,0.1)] relative overflow-hidden">
+            <div className="mb-6 rounded-md border border-primary/[0.08] bg-gradient-to-br from-primary/[0.05] to-primary/[0.02] px-4 py-4 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/[0.04] rounded-full blur-3xl pointer-events-none" />
               <div className="flex items-center gap-2 mb-2 relative">
                 <div className="flex h-5 w-5 items-center justify-center rounded-md bg-primary/15">
@@ -183,7 +183,7 @@ export function EmailView({ emailId }: { emailId: string }) {
                 </span>
               </div>
               {showHeaders && (
-                <div className="mt-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-3.5 text-[12px] text-muted-foreground/50 space-y-1.5 animate-fade-in">
+                <div className="mt-3 rounded-md border border-white/[0.04] bg-white/[0.02] p-3.5 text-[12px] text-muted-foreground/50 space-y-1.5 animate-fade-in">
                   <div><span className="font-medium text-muted-foreground/70">From:</span> {email.from}</div>
                   <div><span className="font-medium text-muted-foreground/70">To:</span> {email.to?.join(', ')}</div>
                   {email.cc && email.cc.length > 0 && (
@@ -220,16 +220,16 @@ export function EmailView({ emailId }: { emailId: string }) {
           <Button
             onClick={() => setReplyOpen(true)}
             size="sm"
-            className="rounded-xl shadow-[0_2px_12px_-2px_rgba(59,130,246,0.25)] hover:shadow-[0_4px_20px_-4px_rgba(59,130,246,0.35)]"
+            className="rounded-md"
           >
             <Reply className="mr-1.5 h-3.5 w-3.5" />
             Reply
           </Button>
-          <Button variant="outline" size="sm" className="rounded-xl">
+          <Button variant="outline" size="sm" className="rounded-md">
             <ReplyAll className="mr-1.5 h-3.5 w-3.5" />
             Reply All
           </Button>
-          <Button variant="outline" size="sm" className="rounded-xl">
+          <Button variant="outline" size="sm" className="rounded-md">
             <Forward className="mr-1.5 h-3.5 w-3.5" />
             Forward
           </Button>

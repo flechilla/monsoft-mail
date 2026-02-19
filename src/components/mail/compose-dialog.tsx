@@ -66,7 +66,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
 
   return (
     <div className="fixed bottom-0 right-6 z-50 flex flex-col animate-fade-in-scale" style={{ width: 560 }}>
-      <div className="shadow-elevated rounded-t-2xl border border-white/[0.06] bg-card/95 backdrop-blur-2xl overflow-hidden">
+      <div className="shadow-elevated rounded-t-lg border border-white/[0.06] bg-card/95 backdrop-blur-2xl overflow-hidden">
         {/* Subtle top accent */}
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
@@ -167,7 +167,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                 onClick={handleSend}
                 disabled={sending}
                 size="sm"
-                className="rounded-xl px-5 btn-compose !shadow-none"
+                className="rounded-md px-5 btn-compose !shadow-none"
               >
                 <Send className="mr-1.5 h-3.5 w-3.5" />
                 {sending ? 'Sending...' : 'Send'}
@@ -176,7 +176,7 @@ export function ComposeDialog({ open, onOpenChange, accountId: propAccountId }: 
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowAi(!showAi)}
-                className="text-muted-foreground/50 hover:text-primary rounded-xl"
+                className="text-muted-foreground/50 hover:text-primary rounded-md"
               >
                 <Sparkles className="mr-1 h-3.5 w-3.5" />
                 AI Assist

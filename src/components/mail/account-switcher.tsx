@@ -31,7 +31,7 @@ export function AccountSwitcher() {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm transition-all duration-200 hover:bg-white/[0.03]"
+        className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-all duration-200 hover:bg-white/[0.03]"
       >
         <MailAvatar
           email={selected?.email || ''}
@@ -50,7 +50,7 @@ export function AccountSwitcher() {
       </button>
 
       {open && (
-        <div className="shadow-elevated absolute bottom-full left-0 mb-2 w-full rounded-xl border border-white/[0.06] bg-card/95 backdrop-blur-2xl z-50 overflow-hidden animate-fade-in-scale">
+        <div className="shadow-elevated absolute bottom-full left-0 mb-2 w-full rounded-md border border-white/[0.06] bg-card/95 backdrop-blur-2xl z-50 overflow-hidden animate-fade-in-scale">
           {accounts.map((account) => (
             <button
               key={account.id}
