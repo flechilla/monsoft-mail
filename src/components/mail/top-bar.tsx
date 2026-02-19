@@ -1,12 +1,14 @@
 'use client';
 
-import { Mail, RefreshCw, Settings, LogOut } from 'lucide-react';
+import { Mail, RefreshCw, Settings, LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
 import { SearchBar } from './search-bar';
 import { signOut } from '@/lib/auth/client';
+import { useSidebar } from './sidebar-context';
 
 export function TopBar() {
   const [rotating, setRotating] = useState(false);
+  const { setMobileOpen } = useSidebar();
 
   function handleRefresh() {
     setRotating(true);
@@ -15,6 +17,15 @@ export function TopBar() {
 
   return (
     <header className="flex h-[52px] items-center gap-4 border-b border-white/[0.06] bg-background px-4 relative z-20">
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="toolbar-btn md:hidden shrink-0"
+        title="Open menu"
+      >
+        <Menu className="h-4 w-4" />
+      </button>
+
       {/* Brand */}
       <div className="flex items-center gap-2.5 shrink-0">
         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
