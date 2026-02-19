@@ -1,15 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
+import { Webhook } from 'svix';
 import { db } from '@/lib/db';
 import { emailAccounts, emails, threads } from '@/lib/db/schema';
-import { eq, and, like } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import { classifyEmail } from '@/lib/ai/classify';
 
-function verifyWebhookSignature(body: string, signature: string | null): boolean {
+function verifyWebhook(body: string, headers: Headers): Record<string, unknown> | null {
   const secret = process.env.RESEND_WEBHOOK_SECRET;
-  if (!secret || !signature) return false;
-  const expected = crypto.createHmac('sha256', secret).update(body).digest('hex');
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  if (!secret) return JSON.parse(body); // skip verification if no secret
+  try {
+    const wh = new Webhook(secret);
+    return wh.verify(body, {
+      'svix-id': headers.get('svix-id') ?? '',
+      'svix-timestamp': headers.get('svix-timestamp') ?? '',
+      'svix-signature': headers.get('svix-signature') ?? '',
+    }) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
 }
 
 function normalizeSubject(subject: string): string {
@@ -80,15 +88,13 @@ async function findOrCreateThread(
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
-  const signature = req.headers.get('resend-signature') || req.headers.get('svix-signature');
-
-  // Verify signature in production
-  if (process.env.NODE_ENV === 'production' && !verifyWebhookSignature(body, signature)) {
+  const payload = verifyWebhook(body, req.headers);
+  if (!payload) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
   }
 
-  const payload = JSON.parse(body);
-  const { type, data } = payload;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { type, data } = payload as { type: string; data: any };
 
   // Handle email.received event
   if (type !== 'email.received') {
