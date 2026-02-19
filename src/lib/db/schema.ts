@@ -173,10 +173,30 @@ export const emailLabels = pgTable(
   (t) => [primaryKey({ columns: [t.emailId, t.labelId] })],
 );
 
+// ─── User Settings ──────────────────────────────────────────────────
+
+export const userSettings = pgTable('user_settings', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }).unique(),
+  displayName: text('display_name'),
+  emailSignature: text('email_signature'),
+  theme: text('theme', { enum: ['light', 'dark', 'system'] }).notNull().default('light'),
+  aiClassification: boolean('ai_classification').notNull().default(true),
+  aiReplySuggestions: boolean('ai_reply_suggestions').notNull().default(true),
+  aiComposeTone: text('ai_compose_tone', { enum: ['professional', 'casual', 'friendly'] }).notNull().default('professional'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
 // ─── Relations ──────────────────────────────────────────────────────
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many, one }) => ({
   emailAccounts: many(emailAccounts),
+  settings: one(userSettings),
+}));
+
+export const userSettingsRelations = relations(userSettings, ({ one }) => ({
+  user: one(users, { fields: [userSettings.userId], references: [users.id] }),
 }));
 
 export const emailAccountsRelations = relations(emailAccounts, ({ one, many }) => ({
